@@ -10,7 +10,7 @@ export default function Home({ products }) {
 }
 
 export const getServerSideProps = async (ctx) => {
-  const res = await fetch("http://localhost:3000/api/products");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`);
   const products = await res.json();
 
   return {
