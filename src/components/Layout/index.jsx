@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { BsMinecartLoaded } from "react-icons/bs";
+import { BsCart3 } from "react-icons/bs";
 
 const Layout = ({ children }) => {
   return (
@@ -12,18 +12,23 @@ const Layout = ({ children }) => {
         </Link>
 
         <div className="flex gap-2">
+          {/* Cart icon */}
           <Link href="/cart" className="flex justify-center items-center">
             <button className="text-lg text-gray-800 mr-3 flex gap-2 items-center">
               <div className="relative">
-                <BsMinecartLoaded size={28} />
-                <span className="absolute top-[-50%] right-[-30%] flex justify-center items-center text-sm font-semibold bg-black text-white w-6 h-6 rounded-full">
+                <BsCart3 size={28} />
+                <span className="absolute top-[-50%] right-[-30%] flex justify-center items-center text-sm font-semibold bg-purple-700 text-white w-6 h-6 rounded-full">
                   3
                 </span>
               </div>
               Cart
             </button>
           </Link>
-          <button className="btn">Sign in</button>
+
+          {/* login button */}
+          <Link href="/login" className="btn">
+            Login
+          </Link>
         </div>
       </header>
       {children}
