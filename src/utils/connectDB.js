@@ -6,7 +6,7 @@ const connectDB = () => {
     return;
   }
   mongoose.connect(
-    process.env.MONGODB_URL,
+    process.env.NEXT_PUBLIC_MONGODB_URL,
     {
       autoIndex: true,
     },
