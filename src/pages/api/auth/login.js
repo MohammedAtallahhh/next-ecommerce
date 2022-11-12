@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import connectDB from "../../../utils/connectDB";
 import User from "../../../models/user";
 
-import { createAccessToken, createRefreshToken } from "../../../utils/token";
+// import { createAccessToken, createRefreshToken } from "../../../utils/token";
 
 connectDB();
 
@@ -23,13 +23,13 @@ const login = async (req, res) => {
     if (!passwordMatch)
       return res.status(400).json({ err: "Incorrect password." });
 
-    const access_token = createAccessToken({ id: user._id });
-    const refresh_token = createRefreshToken({ id: user._id });
+    // const access_token = createAccessToken({ id: user._id });
+    // const refresh_token = createRefreshToken({ id: user._id });
 
     res.json({
       msg: "Login Success!",
-      refresh_token,
-      access_token,
+      // refresh_token,
+      // access_token,
       user: {
         name: user.name,
         email: user.email,

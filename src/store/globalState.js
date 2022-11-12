@@ -14,31 +14,28 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   useEffect(() => {
-    const firstLogin = localStorage.getItem("firstLogin");
-    if (firstLogin) {
-      // activate loading
-      dispatch({
-        type: actions.AUTH,
-        payload: { loading: true, ...state.auth },
-      });
-
-      getData("auth/token").then((res) => {
-        if (res.err) return localStorage.removeItem("firstLogin");
-        dispatch({
-          type: "AUTH",
-          payload: {
-            token: res.access_token,
-            user: res.user,
-            loading: false,
-          },
-        });
-      });
-    }
-
+    // const firstLogin = localStorage.getItem("firstLogin");
+    // if (firstLogin) {
+    //   // activate loading
+    //   dispatch({
+    //     type: actions.AUTH,
+    //     payload: { loading: true, ...state.auth },
+    //   });
+    //   getData("auth/token").then((res) => {
+    //     if (res.err) return localStorage.removeItem("firstLogin");
+    //     dispatch({
+    //       type: "AUTH",
+    //       payload: {
+    //         token: res.access_token,
+    //         user: res.user,
+    //         loading: false,
+    //       },
+    //     });
+    //   });
+    // }
     // getData("categories").then((res) => {
     //   if (res.err)
     //     return dispatch({ type: "NOTIFY", payload: { error: res.err } });
-
     //   dispatch({
     //     type: "ADD_CATEGORIES",
     //     payload: res.categories,
