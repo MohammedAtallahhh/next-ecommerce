@@ -14,7 +14,7 @@ export default function Home({ products }) {
 }
 
 export const getServerSideProps = async (ctx) => {
-  const products = await getData("/products");
+  const products = await getData("products");
 
   return {
     props: {
