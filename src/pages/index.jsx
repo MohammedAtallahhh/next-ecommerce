@@ -1,17 +1,20 @@
+import Head from "next/head";
 import { ProductList } from "../components";
-import Layout from "../components/Layout";
+import { getData } from "../utils/fetchData";
 
 export default function Home({ products }) {
   return (
-    <Layout>
-      <ProductList data={products} />
-    </Layout>
+    <>
+      <Head>
+        <title>Next Shop</title>
+      </Head>
+      <ProductList data={products} />;
+    </>
   );
 }
 
 export const getServerSideProps = async (ctx) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`);
-  const products = await res.json();
+  const products = await getData("/products");
 
   return {
     props: {

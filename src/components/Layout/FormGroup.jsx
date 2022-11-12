@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 
-const FormGroup = ({ label, type = "text", children }) => {
-  const [value, setValue] = useState("");
-
+const FormGroup = (props) => {
+  const { name, label, type = "text", value, onChange, children } = props;
   return (
     <div className="mb-3">
-      <label for={label} className="inline-block mb-2">
+      <label htmlFor={label} className="inline-block mb-2">
         {label}
       </label>
       <input
         type={type}
+        name={name}
         id={label}
-        class=" flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+        className=" flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={onChange}
       />
 
       {children}
