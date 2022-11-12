@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,6 +9,7 @@ import FormGroup from "../components/Layout/FormGroup";
 
 import { validate } from "../utils";
 import { postData } from "../utils/fetchData";
+import { GlobalContext } from "../store/globalState";
 
 const classes = {
   form: "mx-auto my-4 max-w-[500px] py-5",
@@ -25,6 +26,9 @@ const Register = () => {
   const [userData, setUserData] = useState(initialUserData);
 
   const { name, email, password, cf_password } = userData;
+
+  const { state, dispatch } = useContext(GlobalContext);
+  const { auth } = state;
 
   const router = useRouter();
 
@@ -55,6 +59,10 @@ const Register = () => {
 
     return toast.success(res.message);
   };
+
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
 
   // Classes
   const { form, title } = classes;

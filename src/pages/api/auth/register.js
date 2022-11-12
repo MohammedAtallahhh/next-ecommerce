@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import { connectDB, validate } from "../../../utils";
 import { User } from "../../../models";
 
+connectDB();
 export default async (req, res) => {
-  await connectDB();
   if (req.method === "POST") register(req, res);
 };
 

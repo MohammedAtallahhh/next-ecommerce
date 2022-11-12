@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import FormGroup from "../components/Layout/FormGroup";
+import { actions } from "../store/actions";
+import { toast } from "react-toastify";
+import { GlobalContext } from "../store/globalState";
+import { useRouter } from "next/router";
+import { postData } from "../utils/fetchData";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const initialUserData = {
@@ -12,11 +18,46 @@ const Login = () => {
 
   const { email, password } = userData;
 
+  const { state, dispatch } = useContext(GlobalContext);
+  const { auth } = state;
+
+  const router = useRouter();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     return setUserData({ ...userData, [name]: value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await postData("auth/login", userData);
+
+    if (res.err) return toast.error(res.err);
+
+    toast.success(res.message);
+
+    dispatch({
+      type: actions.AUTH,
+      payload: {
+        token: res.access_token,
+        user: res.user,
+        loading: false,
+      },
+    });
+
+    Cookies.set("refreshtoken", res.refresh_token, {
+      path: "api/auth/token",
+      expires: 7,
+    });
+
+    localStorage.setItem("firstLogin", true);
+  };
+
+  useEffect(() => {
+    if (auth.user) router.push("/");
+  }, [auth]);
 
   return (
     <>
@@ -24,10 +65,7 @@ const Login = () => {
         <title>Login</title>
       </Head>
 
-      <form
-        className="mx-auto my-4 max-w-[500px] py-5"
-        // onSubmit={handleSubmit}
-      >
+      <form className="mx-auto my-4 max-w-[500px] py-5" onSubmit={handleSubmit}>
         <h2 className="font-semibold text-4xl mb-5 py-5 border-b border-b-gray-200">
           Login
         </h2>

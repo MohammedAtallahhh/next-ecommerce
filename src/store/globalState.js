@@ -1,7 +1,10 @@
-import { createContext, useReducer } from "react";
-import { globalReducer } from "./globalReducer";
+import { createContext, useEffect, useReducer } from "react";
 
-const GlobalContext = createContext();
+import { globalReducer } from "./globalReducer";
+import { getData } from "../utils/fetchData";
+import { actions } from "./actions";
+
+export const GlobalContext = createContext();
 
 const initialState = {
   auth: {},
@@ -9,6 +12,75 @@ const initialState = {
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
+
+  useEffect(() => {
+    const firstLogin = localStorage.getItem("firstLogin");
+    if (firstLogin) {
+      // activate loading
+      dispatch({
+        type: actions.AUTH,
+        payload: { loading: true, ...state.auth },
+      });
+
+      getData("auth/token").then((res) => {
+        if (res.err) return localStorage.removeItem("firstLogin");
+        dispatch({
+          type: "AUTH",
+          payload: {
+            token: res.access_token,
+            user: res.user,
+            loading: false,
+          },
+        });
+      });
+    }
+
+    // getData("categories").then((res) => {
+    //   if (res.err)
+    //     return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+
+    //   dispatch({
+    //     type: "ADD_CATEGORIES",
+    //     payload: res.categories,
+    //   });
+    // });
+  }, []);
+
+  // useEffect(() => {
+  //   const __next__cart01__devat = JSON.parse(
+  //     localStorage.getItem("__next__cart01__devat")
+  //   );
+
+  //   if (__next__cart01__devat)
+  //     dispatch({ type: "ADD_CART", payload: __next__cart01__devat });
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("__next__cart01__devat", JSON.stringify(cart));
+  // }, [cart]);
+
+  // useEffect(() => {
+  //   if (auth.token) {
+  //     getData("order", auth.token).then((res) => {
+  //       if (res.err)
+  //         return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+
+  //       dispatch({ type: "ADD_ORDERS", payload: res.orders });
+  //     });
+
+  //     if (auth.user.role === "admin") {
+  //       getData("user", auth.token).then((res) => {
+  //         if (res.err)
+  //           return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+
+  //         dispatch({ type: "ADD_USERS", payload: res.users });
+  //       });
+  //     }
+  //   } else {
+  //     dispatch({ type: "ADD_ORDERS", payload: [] });
+  //     dispatch({ type: "ADD_USERS", payload: [] });
+  //   }
+  // }, [auth.token]);
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
       {children}

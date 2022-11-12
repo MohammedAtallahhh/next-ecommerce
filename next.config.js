@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    BASE_URL: "http://localhost:3000",
-    MONGODB_URL:
-      "mongodb+srv://oglu:123@cluster0.fbcbjk7.mongodb.net/next-shop?retryWrites=true&w=majority",
+    BASE_URL: process.env.NEXT_PUBLIC_URL,
+    MONGODB_URL: process.env.NEXT_PUBLIC_MONGODB_URL,
+    ACCESS_TOKEN_SECRET: process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET,
+    REFRESH_TOKEN_SECRET: process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET,
   },
 };
 
