@@ -14,6 +14,10 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   useEffect(() => {
+    dispatch({
+      type: actions.AUTH,
+      payload: JSON.parse(localStorage.getItem("auth")),
+    });
     // const firstLogin = localStorage.getItem("firstLogin");
     // if (firstLogin) {
     //   // activate loading

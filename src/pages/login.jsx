@@ -47,12 +47,10 @@ const Login = () => {
       },
     });
 
-    Cookies.set("refreshtoken", res.refresh_token, {
-      path: "api/auth/token",
-      expires: 7,
-    });
-
-    localStorage.setItem("firstLogin", true);
+    // Cookies.set("refreshtoken", res.refresh_token, {
+    //   path: "api/auth/token",
+    //   expires: 7,
+    // });
   };
 
   useEffect(() => {

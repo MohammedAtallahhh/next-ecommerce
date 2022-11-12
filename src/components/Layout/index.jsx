@@ -17,8 +17,8 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   const handleLogout = () => {
-    Cookies.remove("refreshtoken", { path: "api/auth/accessToken" });
-    localStorage.removeItem("firstLogin");
+    // Cookies.remove("refreshtoken", { path: "api/auth/accessToken" });
+    localStorage.removeItem("auth");
     dispatch({ type: actions.AUTH, payload: {} });
     return router.push("/login");
   };
