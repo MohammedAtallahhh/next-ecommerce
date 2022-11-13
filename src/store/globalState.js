@@ -3,40 +3,38 @@ import { createContext, useEffect, useReducer } from "react";
 import { globalReducer } from "./globalReducer";
 // import { getData } from "../utils/fetchData";
 import { actions } from "./actions";
+import { getData } from "../utils/fetchData";
 
 export const GlobalContext = createContext();
 
 const initialState = {
-  auth: { user: {} },
+  auth: { user: {}, loading: true },
 };
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   useEffect(() => {
-    dispatch({
-      type: actions.AUTH,
-      payload: JSON.parse(localStorage.getItem("auth")) || initialState.auth,
-    });
-    // const firstLogin = localStorage.getItem("firstLogin");
-    // if (firstLogin) {
-    //   // activate loading
-    //   dispatch({
-    //     type: actions.AUTH,
-    //     payload: { loading: true, ...state.auth },
-    //   });
-    //   getData("auth/token").then((res) => {
-    //     if (res.err) return localStorage.removeItem("firstLogin");
-    //     dispatch({
-    //       type: "AUTH",
-    //       payload: {
-    //         token: res.access_token,
-    //         user: res.user,
-    //         loading: false,
-    //       },
-    //     });
-    //   });
-    // }
+    //========== Saving the user state to localStorage ==========//
+    // dispatch({
+    //   type: actions.AUTH,
+    //   payload: JSON.parse(localStorage.getItem("auth")) || initialState.auth,
+    // });
+
+    const firstLogin = localStorage.getItem("firstLogin");
+    if (firstLogin) {
+      getData("auth/token").then((res) => {
+        if (res.err) return localStorage.removeItem("firstLogin");
+        dispatch({
+          type: "AUTH",
+          payload: {
+            token: res.access_token,
+            user: res.user,
+            loading: false,
+          },
+        });
+      });
+    }
     // getData("categories").then((res) => {
     //   if (res.err)
     //     return dispatch({ type: "NOTIFY", payload: { error: res.err } });

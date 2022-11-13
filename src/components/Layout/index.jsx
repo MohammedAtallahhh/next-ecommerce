@@ -19,8 +19,9 @@ const Layout = ({ children }) => {
   const isAuth = Object.keys(user).length;
 
   const handleLogout = () => {
-    // Cookies.remove("refreshtoken", { path: "api/auth/accessToken" });
+    Cookies.remove("refreshtoken", { path: "api/auth/accessToken" });
     localStorage.removeItem("auth");
+    localStorage.removeItem("firstLogin");
     dispatch({ type: actions.AUTH, payload: { user: {} } });
     return router.push("/login");
   };

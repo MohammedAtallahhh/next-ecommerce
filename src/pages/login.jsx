@@ -42,16 +42,18 @@ const Login = () => {
     dispatch({
       type: actions.AUTH,
       payload: {
-        // token: res.access_token,
+        token: res.access_token,
         user: res.user,
         // loading: false,
       },
     });
 
-    // Cookies.set("refreshtoken", res.refresh_token, {
-    //   path: "api/auth/token",
-    //   expires: 7,
-    // });
+    Cookies.set("refreshtoken", res.refresh_token, {
+      path: "api/auth/token",
+      expires: 7,
+    });
+
+    localStorage.setItem("firstLogin", true);
   };
 
   useEffect(() => {
