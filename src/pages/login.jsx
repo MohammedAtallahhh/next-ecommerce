@@ -32,6 +32,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log({ email });
     const res = await postData("auth/login", userData);
 
     if (res.err) return toast.error(res.err);

@@ -10,7 +10,7 @@ export default async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const userData = req.body;
+    const userData = JSON.parse(req.body);
 
     const user = await User.findOne({ email: userData.email });
     if (user)

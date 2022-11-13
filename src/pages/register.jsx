@@ -61,7 +61,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(auth).length !== 0) router.push("/");
+    if (Object.keys(auth.user).length !== 0) router.push("/");
   }, [auth]);
 
   // Classes
