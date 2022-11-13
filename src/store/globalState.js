@@ -1,13 +1,13 @@
 import { createContext, useEffect, useReducer } from "react";
 
 import { globalReducer } from "./globalReducer";
-import { getData } from "../utils/fetchData";
+// import { getData } from "../utils/fetchData";
 import { actions } from "./actions";
 
 export const GlobalContext = createContext();
 
 const initialState = {
-  auth: {},
+  auth: { user: {} },
 };
 
 export const GlobalProvider = ({ children }) => {
@@ -16,7 +16,7 @@ export const GlobalProvider = ({ children }) => {
   useEffect(() => {
     dispatch({
       type: actions.AUTH,
-      payload: JSON.parse(localStorage.getItem("auth")),
+      payload: JSON.parse(localStorage.getItem("auth")) || initialState.auth,
     });
     // const firstLogin = localStorage.getItem("firstLogin");
     // if (firstLogin) {

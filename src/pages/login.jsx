@@ -41,9 +41,9 @@ const Login = () => {
     dispatch({
       type: actions.AUTH,
       payload: {
-        token: res.access_token,
+        // token: res.access_token,
         user: res.user,
-        loading: false,
+        // loading: false,
       },
     });
 
@@ -54,7 +54,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (auth.user) router.push("/");
+    if (Object.keys(auth.user).length) router.push("/");
   }, [auth]);
 
   return (
