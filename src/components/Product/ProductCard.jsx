@@ -1,13 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 
+import { GlobalContext } from "../../store/globalState";
+import { actions } from "../../store/actions";
+
 const ProductCard = ({ data }) => {
-  const { id, title, description, price, images } = data;
+  const { _id, title, description, price, images } = data;
+
+  const { dispatch } = useContext(GlobalContext);
+
+  const descriptionText = description.slice(0, 50);
+
   return (
     <Link
-      href={`products/${id}`}
-      className="flex flex-col gap-2 h-full w-[100%] md:w-[45%] lg:w-[32%] xl:w-[23%] p-5 border border-gray-300 hover:border-gray-600 transition-all"
+      href={`products/${_id}`}
+      className="flex flex-col gap-2 w-[100%] md:w-[45%] lg:w-[32%] xl:w-[23%] p-5 border border-gray-300 hover:border-gray-600 transition-all"
     >
       <div>
         <div className="h-[120px] mb-4 flex justify-center">
@@ -15,11 +23,17 @@ const ProductCard = ({ data }) => {
         </div>
 
         <h2 className="font-semibold text-base">{title}</h2>
-        <p className="text-sm">{description.slice(0, 50)}...</p>
+        <p className="text-sm">{descriptionText}...</p>
 
         <p className="font-semibold text-lg ml-2 mb-3">${price}</p>
 
-        <button className="btn mt-auto" onClick={(e) => e.preventDefault()}>
+        <button
+          className="btn mt-auto"
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch({ type: actions.ADD_TO_CART, payload: data });
+          }}
+        >
           Add to cart
         </button>
       </div>

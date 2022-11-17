@@ -2,39 +2,42 @@ import { createContext, useEffect, useReducer } from "react";
 
 import { globalReducer } from "./globalReducer";
 // import { getData } from "../utils/fetchData";
-import { actions } from "./actions";
 import { getData } from "../utils/fetchData";
+import { actions } from "./actions";
 
 export const GlobalContext = createContext();
 
-const initialState = {
-  auth: { user: {}, loading: true },
+export const initialState = {
+  auth: { user: {} },
+  cart: [],
+  loading: false,
 };
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   useEffect(() => {
-    //========== Saving the user state to localStorage ==========//
-    // dispatch({
-    //   type: actions.AUTH,
-    //   payload: JSON.parse(localStorage.getItem("auth")) || initialState.auth,
-    // });
+    // ========== Saving the user state to localStorage ==========//
+    dispatch({
+      type: actions.LOGIN,
+      payload: JSON.parse(localStorage.getItem("auth")) || initialState.auth,
+    });
 
-    const firstLogin = localStorage.getItem("firstLogin");
-    if (firstLogin) {
-      getData("auth/token").then((res) => {
-        if (res.err) return localStorage.removeItem("firstLogin");
-        dispatch({
-          type: "AUTH",
-          payload: {
-            token: res.access_token,
-            user: res.user,
-            loading: false,
-          },
-        });
-      });
-    }
+    // const firstLogin = localStorage.getItem("firstLogin");
+    // if (firstLogin) {
+    //   getData("auth/token").then((res) => {
+    //     console.log({ res });
+    //     if (res.err) return localStorage.removeItem("firstLogin");
+    //     dispatch({
+    //       type: actions.LOGIN,
+    //       payload: {
+    //         token: res.access_token,
+    //         user: res.user,
+    //       },
+    //     });
+    //   });
+    // }
+
     // getData("categories").then((res) => {
     //   if (res.err)
     //     return dispatch({ type: "NOTIFY", payload: { error: res.err } });
@@ -43,6 +46,17 @@ export const GlobalProvider = ({ children }) => {
     //     payload: res.categories,
     //   });
     // });
+  }, []);
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+
+    if (cart && cart.length) {
+      dispatch({
+        type: actions.SET_CART,
+        payload: cart,
+      });
+    }
   }, []);
 
   // useEffect(() => {

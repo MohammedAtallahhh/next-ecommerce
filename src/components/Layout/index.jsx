@@ -7,27 +7,29 @@ import Cookies from "js-cookie";
 import { BsCart3, BsChevronDown } from "react-icons/bs";
 import { actions } from "../../store/actions";
 import { GlobalContext } from "../../store/globalState";
+import Loader from "./Loader";
 
 const Layout = ({ children }) => {
   const [dropdown, setDropdown] = useState(false);
   const { state, dispatch } = useContext(GlobalContext);
 
-  const router = useRouter();
-
   const { user } = state.auth;
 
-  const isAuth = Object.keys(user).length;
+  const isAuth = user.name;
+
+  const router = useRouter();
 
   const handleLogout = () => {
-    Cookies.remove("refreshtoken", { path: "api/auth/accessToken" });
-    localStorage.removeItem("auth");
-    localStorage.removeItem("firstLogin");
-    dispatch({ type: actions.AUTH, payload: { user: {} } });
+    Cookies.remove("refreshtoken", { path: "api/auth/token" });
+
+    dispatch({ type: actions.LOGOUT });
     return router.push("/login");
   };
 
   return (
     <>
+      {state.loading ? <Loader /> : null}
+
       {/*=================== Header =====================*/}
       <header className="h-24 flex justify-between items-center px-5 lg:px-10 max-w-[1400px] mx-auto bg-slate-100">
         <Link href="/">
@@ -41,7 +43,7 @@ const Layout = ({ children }) => {
               <div className="relative">
                 <BsCart3 size={28} />
                 <span className="absolute top-[-50%] right-[-30%] flex justify-center items-center text-sm font-semibold bg-purple-700 text-white w-6 h-6 rounded-full">
-                  3
+                  {state.cart.length}
                 </span>
               </div>
               <span className="hidden lg:block text-gray-700 text-sm font-medium">

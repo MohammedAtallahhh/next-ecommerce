@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { GlobalContext } from "../store/globalState";
 import { useRouter } from "next/router";
 import { postData } from "../utils/fetchData";
-import Cookies from "js-cookie";
 
 const Login = () => {
   const initialUserData = {
@@ -32,32 +31,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log({ email });
+    dispatch({ type: actions.LOADING, payload: true });
+
     const res = await postData("auth/login", userData);
-
-    if (res.err) return toast.error(res.err);
-
-    toast.success(res.message);
+    if (res.err) {
+      dispatch({ type: actions.LOADING, payload: false });
+      return toast.error(res.err);
+    }
 
     dispatch({
-      type: actions.AUTH,
-      payload: {
-        token: res.access_token,
-        user: res.user,
-        // loading: false,
-      },
+      type: actions.LOGIN,
+      payload: res,
     });
 
-    Cookies.set("refreshtoken", res.refresh_token, {
-      path: "api/auth/token",
-      expires: 7,
-    });
-
-    localStorage.setItem("firstLogin", true);
+    dispatch({ type: actions.LOADING, payload: false });
   };
 
   useEffect(() => {
-    if (Object.keys(auth.user).length) router.push("/");
+    localStorage.setItem("auth", JSON.stringify(auth));
+    if (auth.user && auth.user.name) router.push("/");
   }, [auth]);
 
   return (

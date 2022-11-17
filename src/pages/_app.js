@@ -1,6 +1,7 @@
 import { ToastContainer } from "react-toastify";
 
 import { Layout } from "../components";
+
 import { GlobalProvider } from "../store/globalState";
 
 import "../styles/globals.css";

@@ -10,6 +10,7 @@ import FormGroup from "../components/Layout/FormGroup";
 import { validate } from "../utils";
 import { postData } from "../utils/fetchData";
 import { GlobalContext } from "../store/globalState";
+import { actions } from "../store/actions";
 
 const classes = {
   form: "mx-auto my-4 max-w-[500px] py-5",

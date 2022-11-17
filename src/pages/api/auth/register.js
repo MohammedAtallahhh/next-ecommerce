@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 
 import { connectDB, validate } from "../../../utils";
 import { User } from "../../../models";
+import { postData } from "../../../utils/fetchData";
 
 connectDB();
 export default async (req, res) => {
