@@ -58,7 +58,10 @@ const Login = () => {
         <title>Login</title>
       </Head>
 
-      <form className="mx-auto my-4 max-w-[500px] py-5" onSubmit={handleSubmit}>
+      <form
+        className="mx-auto my-4 w-[80%] max-w-[500px] py-5"
+        onSubmit={handleSubmit}
+      >
         <h2 className="font-semibold text-4xl mb-5 py-5 border-b border-b-gray-200">
           Login
         </h2>

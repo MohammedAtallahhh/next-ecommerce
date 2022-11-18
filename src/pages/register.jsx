@@ -10,10 +10,9 @@ import FormGroup from "../components/Layout/FormGroup";
 import { validate } from "../utils";
 import { postData } from "../utils/fetchData";
 import { GlobalContext } from "../store/globalState";
-import { actions } from "../store/actions";
 
 const classes = {
-  form: "mx-auto my-4 max-w-[500px] py-5",
+  form: "mx-auto my-4 w-[80%] max-w-[500px] py-5",
   title: "font-semibold text-4xl mb-5 py-5 border-b border-b-gray-200",
 };
 
@@ -28,7 +27,7 @@ const Register = () => {
 
   const { name, email, password, cf_password } = userData;
 
-  const { state, dispatch } = useContext(GlobalContext);
+  const { state } = useContext(GlobalContext);
   const { auth } = state;
 
   const router = useRouter();

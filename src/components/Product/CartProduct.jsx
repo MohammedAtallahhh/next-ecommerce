@@ -18,7 +18,7 @@ const CartProduct = ({ data }) => {
   const { _id, title, description, quantity, price, images } = data;
 
   return (
-    <div className="flex justify-between items-stretch py-10 border-b border-gray-300">
+    <div className="flex flex-col lg:flex-row justify-between items-stretch py-10 border-b border-gray-300">
       {/* Product details */}
       <div className="flex-grow">
         <h2 className="text-xl font-medium">{title}</h2>
